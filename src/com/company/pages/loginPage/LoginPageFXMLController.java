@@ -2,6 +2,7 @@ package com.company.pages.loginPage;
 
 import com.company.Main;
 import com.company.pages.Page;
+import com.company.pages.mainPage.MainPage;
 import com.company.pages.registryPage.RegistryPage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,15 +44,14 @@ public class LoginPageFXMLController implements Initializable {
             Integer id = Main.niceNoteServer.login(email, password);
             if (id != null) {
                 Main.setUserId(id);
-                System.out.println("Zalogowano");
+                Page mainPage = new MainPage(Main.page.getStage());
+                Main.changeScene(mainPage);
             } else {
                 System.out.println("Nie ma takiego konta!");
             }
-        } catch (RemoteException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-
-
 
 }
