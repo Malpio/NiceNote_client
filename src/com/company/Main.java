@@ -15,10 +15,10 @@ import java.rmi.registry.Registry;
 public class Main extends Application {
     public static INiceNoteServer niceNoteServer;
     public static Page page;
-    public static Integer UserId = null;
+    public static Integer userId = null;
 
     public static void main(String[] args) {
-       launch();
+        launch(args);
     }
 
     @Override
@@ -40,6 +40,6 @@ public class Main extends Application {
     }
 
     public static void setUserId(Integer id) {
-        Main.UserId = id;
+        Main.userId = id;
     }
 }
