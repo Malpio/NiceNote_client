@@ -1,4 +1,4 @@
-package com.company.pages.common;
+package com.company.common;
 
 import java.io.Serializable;
 
