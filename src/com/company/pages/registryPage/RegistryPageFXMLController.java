@@ -70,9 +70,10 @@ public class RegistryPageFXMLController  implements Initializable {
         }
 
         try {
-            if(Main.niceNoteServer.registry(name, lastName, email, password)) {
+            boolean register = Main.niceNoteServer.registry(name, lastName, email, password);
+            if(register) {
                 this.loginPageNavigate();
-            } else  {
+            } else {
                 showAlert("Taki email już istnieje");
             }
 
