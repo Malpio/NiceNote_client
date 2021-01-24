@@ -20,15 +20,4 @@ public class LoginPage extends Page {
         scene = new Scene(root);
         this.stage = stage;
     }
-
-    //    @Override
-//    public void start(Stage stage) {
-//        stage.setScene(scene);
-//        stage.show();
-//    }
-//
-//    @Override
-//    public void init() {
-//
-//    }
 }

@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.common.User;
 import com.company.pages.Page;
 import com.company.pages.loginPage.LoginPage;
 import com.company.server.INiceNoteServer;
@@ -15,7 +16,7 @@ import java.rmi.registry.Registry;
 public class Main extends Application {
     public static INiceNoteServer niceNoteServer;
     public static Page page;
-    public static Integer userId = null;
+    public static User user = null;
 
     public static void main(String[] args) {
         launch(args);
@@ -32,6 +33,10 @@ public class Main extends Application {
         stage.setTitle("NiceNote");
         page = new LoginPage(stage);
         stage.setScene(page.getScene());
+        stage.setMaxHeight(400);
+        stage.setMaxWidth(640);
+        stage.setMinHeight(400);
+        stage.setMinWidth(640);
         stage.show();
     }
 
@@ -39,7 +44,7 @@ public class Main extends Application {
         page.getStage().setScene(page.getScene());
     }
 
-    public static void setUserId(Integer id) {
-        Main.userId = id;
+    public static void setUser(User user) {
+        Main.user = user;
     }
 }

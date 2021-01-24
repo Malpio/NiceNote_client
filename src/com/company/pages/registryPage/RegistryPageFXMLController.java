@@ -6,6 +6,8 @@ import com.company.pages.loginPage.LoginPage;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
@@ -14,6 +16,8 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class RegistryPageFXMLController  implements Initializable {
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -29,8 +33,13 @@ public class RegistryPageFXMLController  implements Initializable {
     private TextField email;
 
     @FXML
-    private TextField password;
+    private PasswordField password;
 
+    @FXML
+    private PasswordField password2;
+
+    @FXML
+    private Label registryAlert;
 
     @FXML
     public void loginPageNavigate() {
@@ -45,15 +54,67 @@ public class RegistryPageFXMLController  implements Initializable {
     @FXML
     public void handleRegistry() {
         String name = this.name.getText();
-        String last_name = this.last_name.getText();
+        String lastName = this.last_name.getText();
         String email = this.email.getText();
         String password = this.password.getText();
+        String password2 = this.password2.getText();
+
+        if(!isValid(name, lastName, email, password, password2)) {
+            showAlert("Wszystkie pola są wymagane!");
+            return;
+        }
+
+        if(!passwordValidate(password, password2)) {
+            showAlert("Hasła nie są takie same!");
+            return;
+        }
 
         try {
-            Main.niceNoteServer.registry(name, last_name, email, password);
-            this.loginPageNavigate();
+            if(Main.niceNoteServer.registry(name, lastName, email, password)) {
+                this.loginPageNavigate();
+            } else  {
+                showAlert("Taki email już istnieje");
+            }
+
         } catch (RemoteException ex) {
             ex.printStackTrace();
+            showAlert("Wystąpił nieoczekiwany błąd");
         }
+    }
+
+    public void showAlert(String alert) {
+        registryAlert.setText(alert);
+        changeAlertVisible(true);
+        setInputsColor("#f00");
+    }
+
+    @FXML
+    public void onInputPress() {
+        changeAlertVisible(false);
+        setInputsColor("#bdbdbd");
+    }
+
+    public void setInputsColor(String color) {
+        this.name.setStyle(String.format("-fx-border-color: %s", color));
+        this.last_name.setStyle(String.format("-fx-border-color: %s", color));
+        this.email.setStyle(String.format("-fx-border-color: %s", color));
+        this.password.setStyle(String.format("-fx-border-color: %s", color));
+        this.password2.setStyle(String.format("-fx-border-color: %s", color));
+    }
+
+    public void changeAlertVisible(boolean value) {
+        registryAlert.setVisible(value);
+    }
+
+    public boolean passwordValidate(String password, String password2) {
+        return password.equals(password2);
+    }
+
+    public boolean isValid(String name, String lastName, String email, String password, String password2) {
+        return !(name.isEmpty() ||
+                lastName.isEmpty() ||
+                email.isEmpty() ||
+                password.isEmpty() ||
+                password2.isEmpty());
     }
 }
